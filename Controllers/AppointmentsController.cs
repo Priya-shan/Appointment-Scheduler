@@ -94,5 +94,14 @@ namespace Appointment_Scheduler.Controllers
             }
         }
 
+        // GET: AppointmentsController/Delete/5
+        public async Task<ActionResult> Delete(int id)
+        {
+            var data_to_delete = await db.AppointmentDetails.FindAsync(id);
+            db.Remove(data_to_delete);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
