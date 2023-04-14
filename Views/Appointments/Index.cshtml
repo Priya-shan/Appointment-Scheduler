@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Appointment_Scheduler.Models.AppointmentDetailsModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+<style>
+    a{
+        text-decoration:none;
+        color:white;
+    }
+    a:hover{
+        color:white;
+    }
+    button{
+        border-radius:8px;
+    }
+</style>
+</head>
+<h1 style="text-align:center">My Appointments</h1>
+
+<p>
+    <a >Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Appointment Id
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>*@
+             <th>
+                Description
+            </th>
+             <th>
+                Start Time
+            </th>
+            <th>
+                End Time
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+               Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th><button type="button" class="btn-primary" onclick="" style="border-radius:8px"><a asp-action="Create">Add New Entry</a></button></th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.appointment_id)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+             <td>
+                @item.start_time.ToString().Substring(0,5)
+            </td>
+                <td>
+                    @item.end_time.ToString().Substring(0,5)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.duration)
+            </td>
+            <td>
+                @item.date.ToShortDateString()
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                 <button class="btn-secondary">@Html.ActionLink("Edit", "Edit", new { id=item.appointment_id })</button>
+                <button class="btn-danger">@Html.ActionLink("Delete", "Delete", new { id=item.appointment_id})</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
