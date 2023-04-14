@@ -17,19 +17,52 @@ namespace Appointment_Scheduler.Controllers
             this.configuration = configuration;
         }
 
-        // GET: AuthController/Create
+        // GET: AuthController/Register
         public ActionResult Register()
         {
             return View();
         }
 
-        // POST: AuthController/Create
+        // POST: AuthController/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(IFormCollection form)
         {
-            return View();
+            string email = form["email"];
+            string username = form["username"];
+            string password = form["password"];
+            string confirm_password = form["confirm_password"];
+            Console.WriteLine("heyy " + email + " " + username + " " + password + " " + confirm_password);
+            if (password != null && !password.Equals(confirm_password))
+            {
+                Console.WriteLine("entering ifffff");
+                ViewBag.Error = "Password and Confirm Password is not Matching";
+                return View();
+            }
+
+            try
+            {
+                string conn_string = configuration.GetConnectionString("libraryDB");
+                SqlConnection conn = new SqlConnection();
+                conn.ConnectionString = conn_string;
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                string query = $"Insert into UserDetails values('{email}','{username}','{password}')";
+                cmd.CommandText = query;
+                cmd.ExecuteNonQuery();
+
+                Console.WriteLine("added to db");
+                return RedirectToAction(nameof(Login));
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = "Account Already Exists !! Try Login :)";
+                Console.WriteLine(e.Message);
+                return View();
+            }
         }
+
+        // GET: AuthController/Login
         public ActionResult Login()
         {
             return View();
