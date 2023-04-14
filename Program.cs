@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<UserDetailsDBContext>(options => options.UseSqlServer("Data Source=DESKTOP-KN3OCS1;Initial Catalog=Appointment_Scheduler;Integrated Security=True;Encrypt=false"));
-
+builder.Services.AddDbContext<AppointmentDetailsDBContext>(options => options.UseSqlServer("Data Source=DESKTOP-KN3OCS1;Initial Catalog=Appointment_Scheduler;Integrated Security=True;Encrypt=false"));
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
