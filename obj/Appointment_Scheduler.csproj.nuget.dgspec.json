@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HP\\source\\repos\\Appointment_Scheduler\\Appointment_Scheduler.csproj": {}
+    "C:\\Users\\HP\\source\\Appointment_Scheduler\\Appointment_Scheduler.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HP\\source\\repos\\Appointment_Scheduler\\Appointment_Scheduler.csproj": {
+    "C:\\Users\\HP\\source\\Appointment_Scheduler\\Appointment_Scheduler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HP\\source\\repos\\Appointment_Scheduler\\Appointment_Scheduler.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\source\\Appointment_Scheduler\\Appointment_Scheduler.csproj",
         "projectName": "Appointment_Scheduler",
-        "projectPath": "C:\\Users\\HP\\source\\repos\\Appointment_Scheduler\\Appointment_Scheduler.csproj",
+        "projectPath": "C:\\Users\\HP\\source\\Appointment_Scheduler\\Appointment_Scheduler.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HP\\source\\repos\\Appointment_Scheduler\\obj\\",
+        "outputPath": "C:\\Users\\HP\\source\\Appointment_Scheduler\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,24 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
