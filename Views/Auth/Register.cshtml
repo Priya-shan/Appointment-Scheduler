@@ -1,0 +1,59 @@
+﻿@model Appointment_Scheduler.Models.UserDetailsModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.Error != null && ViewBag.Error != "")
+            {
+                <div id="error-div" style="position:relative;width:1100px;height:50px;text-align:center; margin:0 auto;">
+                    <button style="position:absolute;top:0; right:0;" type="button" class="btn-close"
+                            onclick="getElementById('error-div').remove();">
+                    </button>
+                    <h5 class="alert-danger">@ViewBag.Error</h5>
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label">Email Id</label>
+                <input asp-for="email" class="form-control" name="email" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Name</label>
+                <input asp-for="username" class="form-control" name="username"/>
+                <span asp-validation-for="username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Password</label>
+                <input asp-for="password" class="form-control" type="password" name="password"/>
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Confirm Password</label>
+                <input asp-for="password" class="form-control" type="password" name="confirm_password"/>
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
