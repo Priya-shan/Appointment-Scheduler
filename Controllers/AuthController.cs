@@ -72,7 +72,33 @@ namespace Appointment_Scheduler.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserDetailsModel user)
         {
-            return View();
+
+            try
+            {
+                Console.WriteLine("recieved pw : " + user.password);
+                string actual_pw = db.UserDetails.Where(x => x.email == user.email).Select(x => x.password).FirstOrDefault();
+                Console.WriteLine("actual pw : " + actual_pw);
+                if (actual_pw != null && actual_pw.Equals(user.password))
+                {
+                    Console.WriteLine("Pw success");
+                    ViewBag.Error = "";
+                    HttpContext.Response.Cookies.Append("logged_in", "true");
+                    return RedirectToAction("Index", "Appointments");
+                }
+                else
+                {
+                    ViewBag.Error = "Username or Password Incorrect";
+                    Console.WriteLine("Pw incorrect");
+                    return View();
+                }
+
+            }
+            catch (Exception e)
+            {
+                //ViewBag.Error = "Username or Password Incorrect";
+                Console.WriteLine(e.Message);
+                return View();
+            }
         }
     }
 }
