@@ -29,7 +29,32 @@ namespace Appointment_Scheduler.Controllers
         {
             return View(getAppointments());
         }
-        
+
+        // GET: AppointmentsController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: AppointmentsController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind("email", "start_time", "end_time", "duration", "date", "description", "status")] AppointmentDetailsModel AppDet)
+        {
+
+            try
+            {
+                db.Add(AppDet);
+                await db.SaveChangesAsync();
+                Console.WriteLine("added to db");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return View();
+            }
+        }
 
     }
 }
