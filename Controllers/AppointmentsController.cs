@@ -17,12 +17,7 @@ namespace Appointment_Scheduler.Controllers
         {
             List<AppointmentDetailsModel> appointmentList= new List<AppointmentDetailsModel>();
             string current_user_email = Request.Cookies["current_user_email"];
-            Console.WriteLine("current_user_email :"+ current_user_email);
             appointmentList = db.AppointmentDetails.Where(x=>x.email==current_user_email).ToList();
-            foreach(var item in appointmentList)
-            {
-                Console.WriteLine("email :"+item.email);
-            }
             return appointmentList;
         }
         
@@ -43,12 +38,10 @@ namespace Appointment_Scheduler.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind("email", "start_time", "end_time", "duration", "date", "description", "status")] AppointmentDetailsModel AppDet)
         {
-
             try
             {
                 db.Add(AppDet);
                 await db.SaveChangesAsync();
-                Console.WriteLine("added to db");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -62,12 +55,6 @@ namespace Appointment_Scheduler.Controllers
         {
             AppointmentDetailsModel admodel = new AppointmentDetailsModel();
             admodel = db.AppointmentDetails.Where(x => x.appointment_id == id).FirstOrDefault();
-            Console.WriteLine(admodel.appointment_id);
-            Console.WriteLine(admodel.email);
-            //foreach (var item in datas)
-            //{
-            //    Console.WriteLine("email :" + item.email);
-            //}
             return admodel;
         }
 
@@ -85,7 +72,6 @@ namespace Appointment_Scheduler.Controllers
         {
             try
             {
-                Console.WriteLine("gonna update");
                 db.Update(AppDet1);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
