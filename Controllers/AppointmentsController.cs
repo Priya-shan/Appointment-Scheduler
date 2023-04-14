@@ -102,8 +102,5 @@ namespace Appointment_Scheduler.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-
     }
 }
