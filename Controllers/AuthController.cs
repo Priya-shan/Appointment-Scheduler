@@ -42,7 +42,7 @@ namespace Appointment_Scheduler.Controllers
 
             try
             {
-                string conn_string = configuration.GetConnectionString("libraryDB");
+                string conn_string = configuration.GetConnectionString("Appointment_Scheduler");
                 SqlConnection conn = new SqlConnection();
                 conn.ConnectionString = conn_string;
                 conn.Open();
@@ -84,6 +84,7 @@ namespace Appointment_Scheduler.Controllers
                     Console.WriteLine("Pw success");
                     ViewBag.Error = "";
                     HttpContext.Response.Cookies.Append("logged_in", "true");
+                    HttpContext.Response.Cookies.Append("current_user_email", user.email);
                     return RedirectToAction("Index", "Appointments");
                 }
                 else

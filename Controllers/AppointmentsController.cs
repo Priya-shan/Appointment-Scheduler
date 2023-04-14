@@ -16,7 +16,9 @@ namespace Appointment_Scheduler.Controllers
         public List<AppointmentDetailsModel> getAppointments()
         {
             List<AppointmentDetailsModel> appointmentList= new List<AppointmentDetailsModel>();
-            appointmentList = db.AppointmentDetails.ToList();
+            string current_user_email = Request.Cookies["current_user_email"];
+            Console.WriteLine("current_user_email :"+ current_user_email);
+            appointmentList = db.AppointmentDetails.Where(x=>x.email==current_user_email).ToList();
             foreach(var item in appointmentList)
             {
                 Console.WriteLine("email :"+item.email);
