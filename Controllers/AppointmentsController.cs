@@ -56,5 +56,43 @@ namespace Appointment_Scheduler.Controllers
             }
         }
 
+        public AppointmentDetailsModel getAppointmentsById(int id)
+        {
+            AppointmentDetailsModel admodel = new AppointmentDetailsModel();
+            admodel = db.AppointmentDetails.Where(x => x.appointment_id == id).FirstOrDefault();
+            Console.WriteLine(admodel.appointment_id);
+            Console.WriteLine(admodel.email);
+            //foreach (var item in datas)
+            //{
+            //    Console.WriteLine("email :" + item.email);
+            //}
+            return admodel;
+        }
+
+        // GET: AppointmentsController/Edit/5
+        public ActionResult Edit(int id)
+        {
+
+            return View(getAppointmentsById(id));
+        }
+
+        // POST: AppointmentsController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("appointment_id", "email", "start_time", "end_time", "duration", "date", "description", "status")] AppointmentDetailsModel AppDet1)
+        {
+            try
+            {
+                Console.WriteLine("gonna update");
+                db.Update(AppDet1);
+                await db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
