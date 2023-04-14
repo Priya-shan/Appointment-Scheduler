@@ -1,7 +1,12 @@
+using Appointment_Scheduler.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<UserDetailsDBContext>(options => options.UseSqlServer("Data Source=DESKTOP-KN3OCS1;Initial Catalog=Appointment_Scheduler;Integrated Security=True;Encrypt=false"));
 
 var app = builder.Build();
 
@@ -25,3 +30,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+  
