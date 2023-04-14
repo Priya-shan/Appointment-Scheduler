@@ -68,6 +68,7 @@ namespace Appointment_Scheduler.Controllers
             return View();
         }
 
+        // POST: AuthController/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserDetailsModel user)
@@ -99,6 +100,14 @@ namespace Appointment_Scheduler.Controllers
                 Console.WriteLine(e.Message);
                 return View();
             }
+        }
+
+        // GET: AuthController/Logout
+        public ActionResult logout()
+        {
+            Response.Cookies.Delete("logged_in");
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }
