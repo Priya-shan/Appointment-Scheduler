@@ -18,7 +18,51 @@
     }
 </style>
 </head>
+
 <h1 style="text-align:center">Appointments</h1>
+<br />
+@if (ViewBag.Error != null && ViewBag.Error != "")
+{
+    <div id="error-div" style="position:relative;width:1100px;height:50px;text-align:center; margin:0 auto;">
+        <button style="position:absolute;top:0; right:0;" type="button" class="btn-close"
+                onclick="getElementById('error-div').remove();">
+        </button>
+        <h5 class="alert-danger">@ViewBag.Error</h5>
+    </div>
+}
+<div class="row mb3">
+    <p>
+        <div class="col-xl-3">
+            <form asp-action="Index">
+                <input type="hidden" value="name_search" name="form_name"/>
+                <input type="text" placeholder="Enter Name..." name="name" />
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+        <div class="col-xl-6">
+            <form asp-action="Index">
+                <input type="hidden" value="date_Search" name="form_name" />
+                <label>Start Date :</label>
+                <input type="date" name="start_date" />
+                <label>End Date :</label>
+                <input type="date" name="end_date" />
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+        <div class="col-xl-3">
+            <form asp-action="Index">
+                <input type="hidden" value="status" name="form_name" />
+                <input type="radio" value="Upcoming"  name="status"/>
+                <label>Upcoming</label>
+                <input type="radio" value="Completed" name="status"/>
+                <label>Completed</label>
+                <button type="submit" style="margin-left:5px">Apply</button>
+            </form>
+        </div>
+        
+    </p>
+</div>
+
 <br />
 <table class="table">
     <thead>
@@ -26,9 +70,6 @@
             <th>
                 Appointment Id
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.email)
-            </th>*@
              <th>
                 Description
             </th>
