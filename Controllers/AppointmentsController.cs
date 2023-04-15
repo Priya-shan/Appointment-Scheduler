@@ -35,6 +35,8 @@ namespace Appointment_Scheduler.Controllers
                 db.SaveChanges();
             }
         }
+
+        
         public List<AppointmentDetailsModel> getAppointments()
         {
             List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
@@ -98,66 +100,26 @@ namespace Appointment_Scheduler.Controllers
         }
         // GET: AppointmentsController
 
-        public List<AppointmentDetailsModel> getAppointmentsByName(string keyword)
+        public List<AppointmentDetailsModel> getAppointmentsByFilter(string procedure_name,string keyword,DateTime start_date,DateTime end_date,string status)
         {
             List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
             conn.Open();
-            SqlCommand cmd = new SqlCommand("fetch_appointments_with_name", conn);
+            SqlCommand cmd = new SqlCommand(procedure_name, conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@description", keyword);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                AppointmentDetailsModel model = new AppointmentDetailsModel();
-                model.appointment_id = (int)reader["appointment_id"];
-                model.email = (string)reader["email"];
-                model.start_time = (TimeSpan)reader["start_time"];
-                model.end_time = (TimeSpan)reader["end_time"];
-                model.duration = (string)reader["duration"];
-                model.date = (DateTime)reader["date"];
-                model.description = (string)reader["description"];
-                model.status = (string)reader["status"];
-                appointmentList.Add(model);
-            }
-            reader.Close();
-            conn.Close();
-            return appointmentList;
-        }
 
-        public List<AppointmentDetailsModel> getAppointmentsByDateRange(DateTime start_date,DateTime end_date)
-        {
-            List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("fetch_appointments_with_date_range", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@start_date", start_date);
-            cmd.Parameters.AddWithValue("@end_date", end_date);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                AppointmentDetailsModel model = new AppointmentDetailsModel();
-                model.appointment_id = (int)reader["appointment_id"];
-                model.email = (string)reader["email"];
-                model.start_time = (TimeSpan)reader["start_time"];
-                model.end_time = (TimeSpan)reader["end_time"];
-                model.duration = (string)reader["duration"];
-                model.date = (DateTime)reader["date"];
-                model.description = (string)reader["description"];
-                model.status = (string)reader["status"];
-                appointmentList.Add(model);
+            if (procedure_name.Equals("fetch_appointments_with_name")){
+                cmd.Parameters.AddWithValue("@description", keyword);
             }
-            reader.Close();
-            conn.Close();
-            return appointmentList;
-        }
-
-        public List<AppointmentDetailsModel> getAppointmentsByStatus(string status)
-        {
-            List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("fetch_appointments_with_status", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@status", status);
+            else if (procedure_name.Equals("fetch_appointments_with_date_range"))
+            {
+                cmd.Parameters.AddWithValue("@start_date", start_date);
+                cmd.Parameters.AddWithValue("@end_date", end_date);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@status", status);
+            }
+            
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -189,7 +151,7 @@ namespace Appointment_Scheduler.Controllers
             
             string form_name = form["form_name"];
             Console.WriteLine("form name : " + form_name);
-
+            DateTime dummy = DateTime.Now;
             if (form_name != null)
             {
                 if (form_name.Equals("name_search"))
@@ -197,7 +159,8 @@ namespace Appointment_Scheduler.Controllers
                     string keyword = form["name"];
                     Console.WriteLine(" name : " + keyword);
 
-                    return View(getAppointmentsByName(keyword));
+                   
+                    return View(getAppointmentsByFilter("fetch_appointments_with_name",keyword,dummy,dummy,""));
                 }
                 else if (form_name.Equals("date_Search"))
                 {
@@ -212,13 +175,13 @@ namespace Appointment_Scheduler.Controllers
                     Console.WriteLine("sd :"+start_date);
                     Console.WriteLine("ed : "+end_date);
 
-                    return View(getAppointmentsByDateRange(start_date,end_date));
+                    return View(getAppointmentsByFilter("fetch_appointments_with_date_range", "", start_date, end_date, ""));
                 }
                 else
                 {
                     string status = form["status"];
                     Console.WriteLine("status : " + status);
-                    return View(getAppointmentsByStatus(status));
+                    return View(getAppointmentsByFilter("fetch_appointments_with_status", "", dummy, dummy, status));
                 }
             }
             return View(getAppointments());
