@@ -11,6 +11,9 @@ using System.Threading.Channels;
 using System.Data;
 using Microsoft.Extensions.Configuration;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Appointment_Scheduler.Controllers
 {
@@ -200,14 +203,16 @@ namespace Appointment_Scheduler.Controllers
         {
             DateTime currentDate = DateTime.Now;
             Console.WriteLine("Current date: " + currentDate.ToString("yyyy-MM-dd"));
-
+            Console.WriteLine(currentDate);
+            Console.WriteLine((model.date).Add(model.start_time));
             if (model.start_time > model.end_time)
             {
                 Console.WriteLine("start time should be lesser than end time");
                 ViewBag.Error = "Start Time Should be Lesser than the End Time";
                 return View();
             }
-            else if ((model.date) < currentDate)
+            
+            else if ((model.date.Add(model.start_time)) < currentDate)
             {
                 ViewBag.Error = "Scheduled date is lesser than Current date";
                 Console.WriteLine(" scheduled date is lesser than current date ");
@@ -238,6 +243,42 @@ namespace Appointment_Scheduler.Controllers
                 cmd.CommandText = query;
                 cmd.ExecuteNonQuery();
                 conn.Close();
+                int year = model.date.Year;
+                int month = model.date.Month;
+                int date = model.date.Day;
+
+                int hour = model.start_time.Hours;
+                int minute = model.end_time.Minutes;
+
+                Console.WriteLine("fetching details : " + year + " " + month + " " + date + " " + hour + " " + minute);
+                //SCHEDULING EMAIL ON SPECIFIED DATE TIME
+                string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                Console.WriteLine(apiKey);
+                if (apiKey != null)
+                {
+                    var client = new SendGridClient(apiKey);
+                    var from = new EmailAddress("shanmugapriyashanu2002@gmail.com", "Appointment Scheduler");
+                    var subject = "A Reminder for your Upcoming Appointment !";
+                    var to = new EmailAddress(model.email, "Example User");
+                    var plainTextContent = "TESTING EMAIL";
+                    var htmlContent = "<strong>! You have an Appointment in 30 Minutes !</strong>" +
+                        "<h3>Appointment Details</h3>" +
+                        $"<h5>Description : {model.description}</h5>" +
+                        $"<h5>Date : {model.date.ToShortDateString()}</h5>" +
+                        $"<h5>Time : {model.start_time} to {model.end_time}</h5>" +
+                        $"<h5>Duration : {model.duration}</h5>";
+                    var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                    // todo set batch id here
+                    //msg.BatchId = "20002";
+                    //msg.BatchId=Guid.NewGuid().ToString();
+                    //Console.WriteLine(msg.BatchId);
+                    DateTime sendDateTime = new DateTime(year,month,date,hour,minute, 0, DateTimeKind.Local);
+                    sendDateTime = sendDateTime.AddMinutes(-30);
+                    Console.WriteLine("send date : " + sendDateTime);
+                    msg.SendAt = new DateTimeOffset(sendDateTime).ToUnixTimeSeconds();
+                    var response = client.SendEmailAsync(msg).Result;
+                    Console.WriteLine(response.StatusCode);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -263,6 +304,8 @@ namespace Appointment_Scheduler.Controllers
             try
             {
                 db.Update(AppDet1);
+                //todo cancel scheduled mail 
+                //todo schedule correct mail
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
