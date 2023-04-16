@@ -1,0 +1,61 @@
+﻿@model Appointment_Scheduler.Models.UserDetailsModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div>
+    @if (ViewBag.Error != null && ViewBag.Error != "")
+    {
+        <div id="error-div" style="position:relative;width:1100px;height:50px;text-align:center; margin:0 auto;">
+            <button style="position:absolute;top:0; right:0;" type="button" class="btn-close"
+                    onclick="getElementById('error-div').remove();">
+            </button>
+            <h5 class="alert-danger">@ViewBag.Error</h5>
+        </div>
+    }
+    @if (ViewBag.otpverified != null && ViewBag.otpverified == "")
+    {
+        <form asp-action="ResetPw">
+            <h3>Forgot Password ? </h3>
+            <p>Enter your email we will send you a verification code</p>
+            <input type="hidden" name="formname" value="mail_form"/>
+            <label>Email Address</label>
+            <input type="email" name="email" />
+            <button type="submit">Send Code</button>
+        </form>
+    }
+    
+    @if (ViewBag.otpverified != null && ViewBag.otpverified == "no")
+    {
+        <form asp-action="ResetPw">
+            <h3>Disclose the Code !</h3>
+            <p>A Four digit secret code is sent to your Inbox at @ViewBag.resetEmail</p>
+            <input type="hidden" name="formname" value="otp_form" />
+
+            <input type="number" name="otp" />
+            <button type="submit">Submit Otp</button>
+        </form>
+    }
+    @if (ViewBag.otpverified != null && ViewBag.otpverified == "yes")
+    {
+        
+        <form asp-action="ResetPw">
+            <h3>Set Up your New Password !</h3>
+            <p>Resetting New Password for @HttpContextAccessor.HttpContext.Request.Cookies["current_user_email"]</p>
+            <br>
+            <input type="hidden" name="formname" value="newpw_form" />
+            <label>Enter New Password</label>
+            <input type="text" name="newpw" />
+            <br>
+            <br>
+            <label>Confirm New Password</label>
+            <input type="text" name="confirmpw" />
+            <br>
+            <br>
+            <button type="submit">Change Password</button>
+        </form>
+    }
+
+</div>

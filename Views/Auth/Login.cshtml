@@ -30,11 +30,15 @@
                 <input asp-for="password" class="form-control" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
+            <a asp-area="" asp-controller="Auth" asp-action="ResetPw">Forget Password ?</a>
+            <br />
             <br />
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
+            
         </form>
+
     </div>
 </div>
 

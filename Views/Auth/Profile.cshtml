@@ -1,0 +1,199 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<head>
+    <style>
+        .circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 30px;
+        }
+        .circle img {
+			max-width: 100%;
+			max-height: 100%;
+			border-radius: 50%;
+		}
+        #send-otp{
+            display:none;
+        }
+
+        #otp_form{
+            display:none;
+        }
+
+        #change_pw_form{
+            display:none;
+        }
+        button{
+            border-radius:8px;
+        }
+
+        .row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .col-divider {
+            width: 0.1px;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            padding:1px;
+        }
+
+        .col-xl-6 {
+            position: relative;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+            .col-xl-6:first-child .col-divider {
+                display: none;
+            }
+
+        #delete_accnt_col{
+            display:none;
+        }
+        a{
+            text-decoration:none;
+        }
+
+    </style>
+</head>
+<div class="container" style="margin:90px">
+    <div class="row">
+        <div class="col-xl-6">
+            
+            <div class="circle">
+                <img src="/images/profile.jpg" alt="Profile Picture">
+            </div>
+            <br />
+            <button class="btn-primary" id="change-password">Change Password</button>
+            <br />
+            <br />
+            <button class="btn-primary"  id="delete-account">Delete Account</button>
+            <br />
+            <br />
+            <a class="" asp-area="" asp-controller="Auth" asp-action="Logout"><button class="btn-primary">Logout</button></a>
+            
+        </div>
+        <div class="col-divider"></div>
+        <div id="change_pw_col" class="col-xl-6">
+            <button class="btn-primary" id="send-otp" onclick="sendOtp()">Send me OTP</button>
+            <br />
+            <div id="otp_form">
+                <p>Otp Sent to @HttpContextAccessor.HttpContext.Request.Cookies["current_user_email"]</p>
+                <input type="text" placeholder="Enter OTP" id="entered_otp">
+                <button class="btn-primary" id="submit-otp" onclick="checkOtp()">Submit OTP</button>
+            </div>
+            <br />
+            <div id="change_pw_form">
+                <form asp-action="ChangePw">
+
+                </form>
+                <input type="password" id="pw" placeholder="Existing Password">
+                <br />
+                <br />
+                <input type="password" id="" placeholder=" New Password">
+                <br /><br />
+                <button class="btn-success" id="change-password-button">Change Password</button>
+            </div>
+            
+        </div>
+
+        <div id="delete_accnt_col" class="col-xl-6" style="padding:90px 50px">
+            <h4>Are you sure..you want to delete your account permanantly ?</h4>
+            <p>This Action can't be undone</p>
+            <button class="btn-danger"> Delete my Acoount</button>
+            <button class=" btn-success"> Cancel</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const changePasswordButton = document.getElementById('change-password');
+    const sendOTPButton = document.getElementById('send-otp');
+    const otpInput = document.getElementById('otp_form');
+    const submitOTPButton = document.getElementById('submit-otp');
+    const changePasswordForm = document.getElementById('change-password-form');
+    const changePasswordSubmitButton = document.getElementById('change_pw_form');
+    const delete_accnt_col=document.getElementById('delete_accnt_col');
+
+    const deleteAccountButton = document.getElementById('delete-account');
+
+    changePasswordButton.addEventListener('click', () => {
+        sendOTPButton.style.display = 'block';
+
+    });
+
+    sendOTPButton.addEventListener('click', () => {
+        otpInput.style.display = 'block';
+    });
+
+    submitOTPButton.addEventListener('click', () => {
+        changePasswordSubmitButton.style.display = 'block';
+    });
+
+    var changePwBtn = document.getElementById("change-password");
+    var deleteAccntBtn = document.getElementById("delete-account");
+
+    var changePwCol = document.getElementById("change_pw_col");
+    var deleteAccntCol = document.getElementById("delete_accnt_col");
+
+    changePwBtn.addEventListener("click", function () {
+        changePwCol.style.display = "block";
+        deleteAccntCol.style.display = "none";
+    });
+
+    deleteAccntBtn.addEventListener("click", function () {
+        changePwCol.style.display = "none";
+        deleteAccntCol.style.display = "block";
+    });
+    function sendOtp(){
+        console.log("enetrd js dn");
+        $.ajax({
+            type: 'POST',
+            url: 'https://localhost:7226/Auth/sendmail',
+            success: function (res) {
+            
+            }
+        });
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1);
+            if (c.indexOf(name) == 0)
+                return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    function checkOtp(){
+        var actual_otp=getCookie("otpsent"); 
+        var entered_otp=document.getElementById("entered_otp").value;
+        console.log(actual_otp + " " + entered_otp);
+        if(actual_otp===entered_otp){
+            console.log("correct otp");
+            location.replace("/Auth/changePw");
+        }
+        else{
+            console.log("wrong otp");
+        }
+    }
+
+</script>

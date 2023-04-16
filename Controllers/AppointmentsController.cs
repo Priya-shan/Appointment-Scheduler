@@ -41,7 +41,9 @@ namespace Appointment_Scheduler.Controllers
 
         
         public List<AppointmentDetailsModel> getAppointments()
+
         {
+
             List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
             string current_user_email = Request.Cookies["current_user_email"];
             string conn_string = configuration.GetConnectionString("Appointment_Scheduler");
@@ -63,28 +65,29 @@ namespace Appointment_Scheduler.Controllers
                 model.date = (DateTime)reader["date"];
                 model.description = (string)reader["description"];
                 string curr_status = (string)reader["status"];
+                Console.WriteLine("stts : " + curr_status);
                 DateTime currentDate = DateTime.Now;
+                model.status = curr_status;
+                Console.WriteLine("curr__date : " + Convert.ToDateTime(currentDate.ToShortDateString()));
+                Console.WriteLine("app__date : " + model.date);
                 if (model.date < Convert.ToDateTime(currentDate.ToShortDateString()))
                 {
                     if (!curr_status.Equals("Completed"))
                     {
+                        Console.WriteLine("entered 1st if");
                         updateToComplete(model.appointment_id);
                     }
-                    model.status = "Completed";
+                    
                 }
-                else
+                else if(model.date== Convert.ToDateTime(currentDate.ToShortDateString()))
                 {
                     if (model.start_time < TimeSpan.Parse(currentDate.ToString("HH:mm:ss")))
                     {
                         if (!curr_status.Equals("Completed"))
                         {
+                            Console.WriteLine("entered 2nd if");
                             updateToComplete(model.appointment_id);
                         }
-                        model.status = "Completed";
-                    }
-                    else
-                    {
-                        model.status = "Upcoming";
                     }
                 }
                 appointmentList.Add(model);
@@ -105,6 +108,7 @@ namespace Appointment_Scheduler.Controllers
 
         public List<AppointmentDetailsModel> getAppointmentsByFilter(string procedure_name,string keyword,DateTime start_date,DateTime end_date,string status)
         {
+            string current_user= Request.Cookies["current_user_email"];
             List<AppointmentDetailsModel> appointmentList = new List<AppointmentDetailsModel>();
             conn.Open();
             SqlCommand cmd = new SqlCommand(procedure_name, conn);
@@ -112,15 +116,18 @@ namespace Appointment_Scheduler.Controllers
 
             if (procedure_name.Equals("fetch_appointments_with_name")){
                 cmd.Parameters.AddWithValue("@description", keyword);
+                cmd.Parameters.AddWithValue("@email", current_user);
             }
             else if (procedure_name.Equals("fetch_appointments_with_date_range"))
             {
                 cmd.Parameters.AddWithValue("@start_date", start_date);
                 cmd.Parameters.AddWithValue("@end_date", end_date);
+                cmd.Parameters.AddWithValue("@email", current_user);
             }
             else
             {
                 cmd.Parameters.AddWithValue("@status", status);
+                cmd.Parameters.AddWithValue("@email", current_user);
             }
             
             SqlDataReader reader = cmd.ExecuteReader();
@@ -221,6 +228,7 @@ namespace Appointment_Scheduler.Controllers
 
             var duration = model.end_time - model.start_time;
             //01:00:00
+            model.status = "Upcoming";
             string duration_string = duration.ToString();
             model.duration = duration_string.Substring(0, 2) + " Hours " + duration_string.Substring(3, 2) + " Mins";
             Console.WriteLine(model.duration);
@@ -239,6 +247,7 @@ namespace Appointment_Scheduler.Controllers
                 cmd.Parameters.AddWithValue("@duration", model.duration);
                 cmd.Parameters.AddWithValue("@date", model.date);
                 cmd.Parameters.AddWithValue("@description", model.description);
+                Console.WriteLine("adding status : " + model.status);
                 cmd.Parameters.AddWithValue("@status", model.status);
                 cmd.CommandText = query;
                 cmd.ExecuteNonQuery();

@@ -23,6 +23,11 @@
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Date</label>
+                <input asp-for="date" type="date" class="form-control" />
+                <span asp-validation-for="date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label class="control-label">Start Time</label>
                 <input asp-for="start_time" type="time" class="form-control" />
                 <span asp-validation-for="start_time" class="text-danger"></span>
@@ -32,22 +37,8 @@
                 <input asp-for="end_time" type="time" class="form-control" />
                 <span asp-validation-for="end_time" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Duration</label>
-                <input asp-for="duration" class="form-control" type="hidden" value="" />
-                <span asp-validation-for="duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Date</label>
-                <input asp-for="date" type="date" class="form-control" />
-                <span asp-validation-for="date" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Status</label>
-                <input asp-for="status" class="form-control" />
-                <span asp-validation-for="status" class="text-danger"></span>
-            </div>
+            
+     
             <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\profile.jpg",
+      "PackagePath": "staticwebassets\\images\\profile.jpg"
+    },
+    {
       "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

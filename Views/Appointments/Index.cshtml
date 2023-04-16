@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    int init = 1;
 }
 
 <head>
@@ -43,9 +44,9 @@
             <form asp-action="Index">
                 <input type="hidden" value="date_Search" name="form_name" />
                 <label>Start Date :</label>
-                <input type="date" name="start_date" />
+                <input type="date" name="start_date" required />
                 <label>End Date :</label>
-                <input type="date" name="end_date" />
+                <input type="date" name="end_date" required />
                 <button type="submit">Apply</button>
             </form>
         </div>
@@ -96,7 +97,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.appointment_id)
+                @(init++)
             </td>
            @* <td>
                 @Html.DisplayFor(modelItem => item.email)
