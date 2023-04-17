@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Auth\Home.cshtml" />
+    <Content Remove="wwwroot\Calendar-amico.png" />
   </ItemGroup>
 
   <ItemGroup>

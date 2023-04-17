@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Appointment_Scheduler.Models.AppointmentDetailsModel>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Index";
     int init = 1;
@@ -20,7 +20,7 @@
 </style>
 </head>
 
-<h1 style="text-align:center">Appointments</h1>
+<h2 style="text-align:center">Hello @HttpContextAccessor.HttpContext.Request.Cookies["current_user_name"] 👋</h2>
 <br />
 @if (ViewBag.Error != null && ViewBag.Error != "")
 {

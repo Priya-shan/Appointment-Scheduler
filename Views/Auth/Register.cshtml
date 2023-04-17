@@ -4,12 +4,14 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
 
+@*
 <h4></h4>
-<hr />
+<hr />*@
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
+        <h2 style="margin:15px 0px">Register</h2>
         <form asp-action="Register">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -46,12 +48,14 @@
             <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary" />
             </div>
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="col-md-6">
+        <img src="/images/Sign up-amico.png" class="img-fluid" alt="Image related to the application" width="400px"  height="400px" style="margin-left:140px; margin-top:20px" />
+    </div>
 </div>
 
 @section Scripts {

@@ -2,7 +2,75 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ScheduleMe</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			overflow:hidden;
+		}
+
+		.container1 {
+
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			height: 100vh;
+			box-sizing: border-box;
+			margin-top:-67px;
+			margin-bottom:-17px;		
+		}
+
+		.image {
+			flex: 1;
+			height: 100%;
+			width:200px !important;
+			background-image: url('/images/Calendar-amico.png');
+			background-size:cover;
+			background-position: center;
+			margin-left:-50px;
+		}
+		.text {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			text-align: left;
+			color: black;
+			font-weight: bold;
+		}
+		.text h1 {
+			font-size: 70px;
+			margin-left: 30px;
+			padding: 0;
+			line-height: 1.2;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+			letter-spacing: -2px;
+		}
+		.text p {
+			font-size: 32px;
+			margin-top: 20px;
+				margin-left: 30px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+			line-height: 1.5;
+		}
+		.text p span {
+			color: #BA68C8;
+		}
+	</style>
+</head>
+<body>
+	<div class="container1">
+		<div class="image" ></div>
+		<div class="text">
+			<h1>Time Keeper</h1>
+			<p>"Never Miss an <span>Appointment</span> Again"</p>
+	</div>
+</body>
+</html>

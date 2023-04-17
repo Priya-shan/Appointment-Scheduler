@@ -91,14 +91,14 @@
         </div>
         <div class="col-divider"></div>
         <div id="change_pw_col" class="col-xl-6">
-            <button class="btn-primary" id="send-otp" onclick="sendOtp()">Send me OTP</button>
+            @*<button class="btn-primary" id="send-otp" onclick="sendOtp()">Send me OTP</button>
             <br />
             <div id="otp_form">
                 <p>Otp Sent to @HttpContextAccessor.HttpContext.Request.Cookies["current_user_email"]</p>
                 <input type="text" placeholder="Enter OTP" id="entered_otp">
                 <button class="btn-primary" id="submit-otp" onclick="checkOtp()">Submit OTP</button>
             </div>
-            <br />
+            <br />*@
             <div id="change_pw_form">
                 <form asp-action="ChangePw">
 
@@ -135,16 +135,8 @@
     const deleteAccountButton = document.getElementById('delete-account');
 
     changePasswordButton.addEventListener('click', () => {
-        sendOTPButton.style.display = 'block';
-
-    });
-
-    sendOTPButton.addEventListener('click', () => {
-        otpInput.style.display = 'block';
-    });
-
-    submitOTPButton.addEventListener('click', () => {
         changePasswordSubmitButton.style.display = 'block';
+
     });
 
     var changePwBtn = document.getElementById("change-password");
@@ -162,6 +154,8 @@
         changePwCol.style.display = "none";
         deleteAccntCol.style.display = "block";
     });
+
+
     function sendOtp(){
         console.log("enetrd js dn");
         $.ajax({

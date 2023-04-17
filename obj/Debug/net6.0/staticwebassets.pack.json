@@ -13,6 +13,30 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\Calendar-amico.png",
+      "PackagePath": "staticwebassets\\images\\Calendar-amico.png"
+    },
+    {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\Enter OTP-amico.png",
+      "PackagePath": "staticwebassets\\images\\Enter OTP-amico.png"
+    },
+    {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\Forgot password-amico.png",
+      "PackagePath": "staticwebassets\\images\\Forgot password-amico.png"
+    },
+    {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\Login-amico.png",
+      "PackagePath": "staticwebassets\\images\\Login-amico.png"
+    },
+    {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\Sign up-amico.png",
+      "PackagePath": "staticwebassets\\images\\Sign up-amico.png"
+    },
+    {
+      "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\homepg_img.avif",
+      "PackagePath": "staticwebassets\\images\\homepg_img.avif"
+    },
+    {
       "Id": "C:\\Users\\HP\\source\\Appointment_Scheduler\\wwwroot\\images\\profile.jpg",
       "PackagePath": "staticwebassets\\images\\profile.jpg"
     },

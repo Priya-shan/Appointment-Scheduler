@@ -34,7 +34,7 @@ namespace Appointment_Scheduler.Controllers
             {
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("shanmugapriyashanu2002@gmail.com", "Appointment Scheduler");
-                var subject = "A Reminder for your Upcoming Appointment !";
+                var subject = "Time Keeper - Otp for Password Reset !";
                 var to = new EmailAddress(email, "Example User");
                 var plainTextContent = "TESTING EMAIL";
                 var htmlContent = $"<strong>Your One Time Password : {otp} </strong>";
@@ -114,12 +114,14 @@ namespace Appointment_Scheduler.Controllers
             try
             {
                 string actual_pw = db.UserDetails.Where(x => x.email == user.email).Select(x => x.password).FirstOrDefault();
+                string username= db.UserDetails.Where(x => x.email == user.email).Select(x => x.username).FirstOrDefault();
                 if (actual_pw != null && actual_pw.Equals(user.password))
                 {
                     ViewBag.Error = "";
                     HttpContext.Response.Cookies.Append("logged_in", "true");
                     HttpContext.Response.Cookies.Append("current_user_email", user.email);
-                    return RedirectToAction("Index", "Appointments");
+					HttpContext.Response.Cookies.Append("current_user_name", username);
+					return RedirectToAction("Index", "Appointments");
                 }
                 else
                 {

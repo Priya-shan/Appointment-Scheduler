@@ -3,12 +3,10 @@
 @{
     ViewData["Title"] = "Login";
 }
-<h1>Login</h1>
 
-<h4></h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
+        <h2 style="margin:15px 0px;margin-top:70px">Login</h2>
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @if (ViewBag.Error != null && ViewBag.Error != "")
@@ -36,15 +34,18 @@
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
-            
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
         </form>
 
     </div>
+    <div class="col-md-6">
+        <img src="/images/Login-amico.png" class="img-fluid" alt="Image related to the application" width="400px" height="400px" style="margin-left:140px; margin-top:20px" />
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

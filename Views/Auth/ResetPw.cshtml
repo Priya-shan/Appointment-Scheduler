@@ -4,8 +4,15 @@
 @{
     ViewData["Title"] = "Login";
 }
-
-<div>
+<head>
+    <style>
+        button{
+            border-radius:8px;
+        }
+    </style>
+</head>
+<div class="row">
+    <div class="col-md-5">
     @if (ViewBag.Error != null && ViewBag.Error != "")
     {
         <div id="error-div" style="position:relative;width:1100px;height:50px;text-align:center; margin:0 auto;">
@@ -18,31 +25,31 @@
     @if (ViewBag.otpverified != null && ViewBag.otpverified == "")
     {
         <form asp-action="ResetPw">
-            <h3>Forgot Password ? </h3>
+            <h3 style="margin:15px 0px;margin-top:160px">Forgot Password ? </h3>
             <p>Enter your email we will send you a verification code</p>
             <input type="hidden" name="formname" value="mail_form"/>
             <label>Email Address</label>
             <input type="email" name="email" />
-            <button type="submit">Send Code</button>
+            <button class="btn-primary" type="submit">Send Code</button>
         </form>
     }
     
     @if (ViewBag.otpverified != null && ViewBag.otpverified == "no")
     {
         <form asp-action="ResetPw">
-            <h3>Disclose the Code !</h3>
+                <h3 style="margin:15px 0px;margin-top:160px">Disclose the Code !</h3>
             <p>A Four digit secret code is sent to your Inbox at @ViewBag.resetEmail</p>
             <input type="hidden" name="formname" value="otp_form" />
 
             <input type="number" name="otp" />
-            <button type="submit">Submit Otp</button>
+            <button class="btn-primary" type="submit">Submit Otp</button>
         </form>
     }
     @if (ViewBag.otpverified != null && ViewBag.otpverified == "yes")
     {
         
         <form asp-action="ResetPw">
-            <h3>Set Up your New Password !</h3>
+                <h3 style="margin:15px 0px;margin-top:100px">Set Up your New Password !</h3>
             <p>Resetting New Password for @HttpContextAccessor.HttpContext.Request.Cookies["current_user_email"]</p>
             <br>
             <input type="hidden" name="formname" value="newpw_form" />
@@ -54,8 +61,11 @@
             <input type="text" name="confirmpw" />
             <br>
             <br>
-            <button type="submit">Change Password</button>
+            <button class="btn-primary" type="submit">Change Password</button>
         </form>
     }
-
+    </div>
+    <div class="col-md-6">
+        <img src="/images/Forgot password-amico.png" class="img-fluid" alt="Image related to the application" width="400px" height="400px" style="margin-left:140px; margin-top:20px" />
+    </div>
 </div>
